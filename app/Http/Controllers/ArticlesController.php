@@ -1,9 +1,8 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
+use App\Http\Requests\CreateArticle;
+use App\Articles;
 
 class ArticlesController extends Controller {
 
@@ -14,7 +13,9 @@ class ArticlesController extends Controller {
 	 */
 	public function index()
 	{
-		//
+		$articles = Articles::latest('published_at')->get();
+
+		return view('articles.index', compact('articles'));
 	}
 
 	/**
@@ -24,17 +25,24 @@ class ArticlesController extends Controller {
 	 */
 	public function create()
 	{
-		//
+
+		return view('articles.create');
 	}
 
 	/**
-	 * Store a newly created resource in storage.
 	 *
-	 * @return Response
+	 * @param CreateArticle $request
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
 	 */
-	public function store()
+	public function store(CreateArticle $request)
 	{
-		//
+		// from call Request on top
+		// Remember to change method on create form
+
+		Articles::create($request->all());
+
+		return redirect('articles');
+
 	}
 
 	/**
@@ -43,9 +51,11 @@ class ArticlesController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($slug)
 	{
-		//
+		$article = Articles::where('slug', $slug )->firstOrFail();
+
+		return view('articles.show', compact('article'));
 	}
 
 	/**
