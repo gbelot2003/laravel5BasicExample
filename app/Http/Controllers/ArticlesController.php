@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateArticle;
+use App\Http\Requests\CreateArticleRequest;
 use App\Articles;
 
 class ArticlesController extends Controller {
@@ -30,11 +30,10 @@ class ArticlesController extends Controller {
 	}
 
 	/**
-	 *
-	 * @param CreateArticle $request
+	 * @param CreateArticleRequest $request
 	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
 	 */
-	public function store(CreateArticle $request)
+	public function store(CreateArticleRequest $request)
 	{
 		// from call Request on top
 		// Remember to change method on create form
