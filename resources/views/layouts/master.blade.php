@@ -10,7 +10,7 @@
 
 	<!-- Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
-
+	<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.1/css/select2.min.css" rel="stylesheet" />
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -26,8 +26,15 @@
 
 		@yield('content')
 	</div>
+	<div class="row">
+		<div id="footer" class="col-md-12">
+			@yield('footer')
+		</div>
+	</div>
 </div>
 <!-- Scripts -->
 <script src="/js/app.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.1/js/select2.min.js"></script>
+@yield('scriptArea')
 </body>
 </html>
