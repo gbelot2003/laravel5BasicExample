@@ -30,5 +30,5 @@
 
 
 <div class="form-group">
-	{!! Form::submit('Edit article', ['class' => 'btn btn-primary']) !!}
+	{!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}
 </div>
