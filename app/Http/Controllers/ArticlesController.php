@@ -3,6 +3,7 @@
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateArticleRequest;
 use App\Articles;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -15,8 +16,8 @@ class ArticlesController extends Controller {
 	 */
 	public function index()
 	{
+		return Auth::user();
 		$articles = Articles::latest('published_at')->get();
-
 		return view('articles.index', compact('articles'));
 	}
 
@@ -40,9 +41,7 @@ class ArticlesController extends Controller {
 	{
 		// from call Request on top
 		// Remember to change method on create form
-
-		Articles::create($request->all());
-
+		Auth::user()->articles()->save(new Articles($request->all()));
 		return redirect('articles');
 
 	}
