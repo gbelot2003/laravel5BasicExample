@@ -1,9 +1,8 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
-class articles extends Model {
+class Article extends Model {
 
 	/**
 	 *
@@ -23,7 +22,7 @@ class articles extends Model {
 	 *
 	 * @param type $query
 	 */
-	public function scopePublished($query)
+	/*public function scopePublished($query)
 	{
 		$query->where('published_at', '<=', Carbon::now());
 	}
@@ -33,7 +32,7 @@ class articles extends Model {
 	 * @param type $query
 	 */
 
-	public function scopeUnpublished($query)
+	/*public function scopeUnpublished($query)
 	{
 		$query->where('published_at', '>', Carbon::now());
 	}
@@ -42,7 +41,7 @@ class articles extends Model {
 	*
 	* @param type $date
 	*/
-	public function setPublishedAtAttribute($date)
+	/*public function setPublishedAtAttribute($date)
 	{
 		$this->attributes['published_at'] = Carbon::createFromFormat('Y-m-d', $date);
 	}
@@ -57,7 +56,12 @@ class articles extends Model {
 	}
 
 	/**
+	 * Get the tags associated with the given article
 	 *
- 	*/
-
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function tags()
+	{
+		return $this->belongsToMany('App\Tag')->withTimestamps();
+	}
 }

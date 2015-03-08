@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateArticleRequest;
-use App\Articles;
+use App\Article;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,7 +28,7 @@ class ArticlesController extends Controller {
 	 */
 	public function index()
 	{
-		$articles = Articles::latest('published_at')->get();
+		$articles = Article::latest('published_at')->get();
 		return view('articles.index', compact('articles'));
 	}
 
@@ -71,7 +71,7 @@ class ArticlesController extends Controller {
 	 */
 	public function show($slug)
 	{
-		$article = Articles::where('slug', '=', $slug )->firstOrFail();
+		$article = Article::where('slug', '=', $slug )->firstOrFail();
 		return view('articles.show', compact('article'));
 	}
 
@@ -83,7 +83,7 @@ class ArticlesController extends Controller {
 	 */
 	public function edit($id)
 	{
-		$articles = Articles::findOrFail($id);
+		$articles = Article::findOrFail($id);
 
 		return view('articles.edit', compact('articles'));
 	}
@@ -97,7 +97,7 @@ class ArticlesController extends Controller {
 	 */
 	public function update($id, Request $request)
 	{
-		$articles = Articles::where('id', '=', $id)->firstOrFail();
+		$articles = Article::where('id', '=', $id)->firstOrFail();
 
 		$articles->update($request->all());
 
