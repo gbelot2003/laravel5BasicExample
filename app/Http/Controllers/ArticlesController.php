@@ -6,6 +6,7 @@ use App\Articles;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Session;
 
 class ArticlesController extends Controller {
 
@@ -50,8 +51,17 @@ class ArticlesController extends Controller {
 	{
 		// from call Request on top
 		// Remember to change method on create form
-		Auth::user()->articles()->save(new Articles($request->all()));
-		return redirect('articles');
+
+		$articles = new Articles($request->all());
+
+		Auth::user()->articles()->save($articles);
+
+		Session::flash('flash_message', 'Article created');
+
+		return redirect('articles')->with([
+			'flash_message' => 'Article Created',
+			'flash_message_important' => true
+		]);
 
 	}
 
@@ -93,7 +103,9 @@ class ArticlesController extends Controller {
 
 		$articles->update($request->all());
 
-		return redirect('articles');
+		return redirect('articles')->with([
+			'flash_message' => 'Article edited'
+		]);
 	}
 
 	/**
