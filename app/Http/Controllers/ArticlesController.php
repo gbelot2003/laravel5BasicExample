@@ -3,6 +3,7 @@
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateArticleRequest;
 use App\Articles;
+use Carbon\Carbon;
 
 class ArticlesController extends Controller {
 
@@ -65,7 +66,9 @@ class ArticlesController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		$article = Articles::where('slug', '=', $id)->firstOrFail();
+
+		return view('articles.edit', compact('article'));
 	}
 
 	/**
@@ -76,7 +79,7 @@ class ArticlesController extends Controller {
 	 */
 	public function update($id)
 	{
-		//
+
 	}
 
 	/**
