@@ -16,7 +16,6 @@ class ArticlesController extends Controller {
 	 */
 	public function index()
 	{
-		return Auth::user();
 		$articles = Articles::latest('published_at')->get();
 		return view('articles.index', compact('articles'));
 	}

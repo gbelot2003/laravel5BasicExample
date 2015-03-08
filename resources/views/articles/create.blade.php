@@ -5,6 +5,7 @@
 
 	@include('errors._articles')
 	<div class="form-control">
+		{!! Form::open(['url' => 'articles']) !!}
 
 		@include('articles._form', ['submitButtonText' => 'Create Article'])
 
