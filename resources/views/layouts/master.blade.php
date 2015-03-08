@@ -22,7 +22,7 @@
 @include('layouts.nav')
 <div class="container">
 	<div class="row">
-		@include('layouts._alerts')
+		@include('flash::message')
 
 		@yield('content')
 	</div>

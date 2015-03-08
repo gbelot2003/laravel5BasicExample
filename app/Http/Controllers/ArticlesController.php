@@ -6,6 +6,7 @@ use App\Articles;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Laracasts\Flash\Flash;
 use Session;
 
 class ArticlesController extends Controller {
@@ -56,12 +57,9 @@ class ArticlesController extends Controller {
 
 		Auth::user()->articles()->save($articles);
 
-		Session::flash('flash_message', 'Article created');
+		flash()->overlay('your article has been create', 'Good job');
 
-		return redirect('articles')->with([
-			'flash_message' => 'Article Created',
-			'flash_message_important' => true
-		]);
+		return redirect('articles');
 
 	}
 
@@ -103,9 +101,7 @@ class ArticlesController extends Controller {
 
 		$articles->update($request->all());
 
-		return redirect('articles')->with([
-			'flash_message' => 'Article edited'
-		]);
+		return redirect('articles');
 	}
 
 	/**
