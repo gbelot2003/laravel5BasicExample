@@ -3,6 +3,7 @@
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateArticleRequest;
 use App\Article;
+use App\Tag;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,9 +23,7 @@ class ArticlesController extends Controller {
 	}
 
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return ResponseC
+	 * @return \Illuminate\View\View
 	 */
 	public function index()
 	{
@@ -39,8 +38,8 @@ class ArticlesController extends Controller {
 	 */
 	public function create()
 	{
-
-		return view('articles.create');
+		$tags = Tag::lists('name', 'id');
+		return view('articles.create', compact('tags'));
 	}
 
 
@@ -53,9 +52,11 @@ class ArticlesController extends Controller {
 		// from call Request on top
 		// Remember to change method on create form
 
-		$articles = new Articles($request->all());
+		$articles = new Article($request->all());
 
 		Auth::user()->articles()->save($articles);
+
+		$articles->tags()->attach($request->input('tag_list'));
 
 		flash()->overlay('your article has been create', 'Good job');
 
@@ -64,10 +65,8 @@ class ArticlesController extends Controller {
 	}
 
 	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
+	 * @param $slug
+	 * @return \Illuminate\View\View
 	 */
 	public function show($slug)
 	{
@@ -84,22 +83,22 @@ class ArticlesController extends Controller {
 	public function edit($id)
 	{
 		$articles = Article::findOrFail($id);
-
-		return view('articles.edit', compact('articles'));
+		$tags = Tag::lists('name', 'id');
+		return view('articles.edit', compact('articles', 'tags'));
 	}
 
 	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int $id
+	 * @param $id
 	 * @param Request $request
-	 * @return Response
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
 	 */
 	public function update($id, Request $request)
 	{
 		$articles = Article::where('id', '=', $id)->firstOrFail();
 
 		$articles->update($request->all());
+
+		$articles->tags()->sync($request->input('tag_list'));
 
 		return redirect('articles');
 	}
