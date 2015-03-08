@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateArticleRequest;
 use App\Articles;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class ArticlesController extends Controller {
 
@@ -30,11 +31,12 @@ class ArticlesController extends Controller {
 		return view('articles.create');
 	}
 
+
 	/**
-	 * @param CreateArticleRequest $request
+	 * @param Request $request
 	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
 	 */
-	public function store(CreateArticleRequest $request)
+	public function store(Request $request)
 	{
 		// from call Request on top
 		// Remember to change method on create form
@@ -53,8 +55,7 @@ class ArticlesController extends Controller {
 	 */
 	public function show($slug)
 	{
-		$article = Articles::where('slug', $slug )->firstOrFail();
-
+		$article = Articles::where('slug', '=', $slug )->firstOrFail();
 		return view('articles.show', compact('article'));
 	}
 
@@ -66,20 +67,25 @@ class ArticlesController extends Controller {
 	 */
 	public function edit($id)
 	{
-		$article = Articles::where('slug', '=', $id)->firstOrFail();
+		$articles = Articles::findOrFail($id);
 
-		return view('articles.edit', compact('article'));
+		return view('articles.edit', compact('articles'));
 	}
 
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  int  $id
+	 * @param  int $id
+	 * @param Request $request
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, Request $request)
 	{
+		$articles = Articles::where('id', '=', $id)->firstOrFail();
 
+		$articles->update($request->all());
+
+		return redirect('articles');
 	}
 
 	/**

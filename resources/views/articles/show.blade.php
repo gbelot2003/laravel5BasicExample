@@ -1,12 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
-	<h1>Articles</h1>
-	<hr>
 	<div class="row">
 			<article class="col-md-12">
 				<header>
-					<h2>{{ $article->title }}</h2>
+					<h1>{{ $article->title }}</h1>
+					<a href="/articles/{{ $article->id }}/edit">edit</a>
 				</header>
 				{{ $article->body }}
 			</article>
