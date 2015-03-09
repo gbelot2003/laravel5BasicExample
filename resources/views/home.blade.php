@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts/master.blade')
 
 @section('content')
 <div class="container">
